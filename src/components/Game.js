@@ -276,95 +276,95 @@ function Game() {
       if (
         activeAutomobiles[12] &&
         left < 125 &&
-        positionAuto12 > 400 &&
-        positionAuto12 < 800
+        positionAuto12 > 500 &&
+        positionAuto12 < 900
       ) {
         boom(12);
       } else if (
         activeAutomobiles[6] &&
         left < 125 &&
-        positionAuto6 > 400 &&
-        positionAuto6 < 800
+        positionAuto6 > 500 &&
+        positionAuto6 < 900
       ) {
         boom(6);
       } else if (
         activeAutomobiles[5] &&
         left > 75 &&
         left < 275 &&
-        positionAuto5 > 400 &&
-        positionAuto5 < 800
+        positionAuto5 > 500 &&
+        positionAuto5 < 900
       ) {
         boom(5);
       } else if (
         activeAutomobiles[11] &&
         left > 75 &&
         left < 275 &&
-        positionAuto11 > 400 &&
-        positionAuto11 < 800
+        positionAuto11 > 500 &&
+        positionAuto11 < 900
       ) {
         boom(11);
       } else if (
         activeAutomobiles[4] &&
         left > 225 &&
         left < 425 &&
-        positionAuto4 > 400 &&
-        positionAuto4 < 800
+        positionAuto4 > 500 &&
+        positionAuto4 < 900
       ) {
         boom(4);
       } else if (
         activeAutomobiles[10] &&
         left > 225 &&
         left < 425 &&
-        positionAuto10 > 400 &&
-        positionAuto10 < 800
+        positionAuto10 > 500 &&
+        positionAuto10 < 900
       ) {
         boom(10);
       } else if (
         activeAutomobiles[3] &&
         left > 375 &&
         left < 575 &&
-        positionAuto3 > 400 &&
-        positionAuto3 < 800
+        positionAuto3 > 500 &&
+        positionAuto3 < 900
       ) {
         boom(3);
       } else if (
         activeAutomobiles[9] &&
         left > 375 &&
         left < 575 &&
-        positionAuto9 > 400 &&
-        positionAuto9 < 800
+        positionAuto9 > 500 &&
+        positionAuto9 < 900
       ) {
         boom(9);
       } else if (
         activeAutomobiles[2] &&
         left > 525 &&
         left < 725 &&
-        positionAuto2 > 400 &&
-        positionAuto2 < 800
+        positionAuto2 > 500 &&
+        positionAuto2 < 900
       ) {
         boom(2);
       } else if (
         activeAutomobiles[8] &&
         left > 525 &&
         left < 725 &&
-        positionAuto8 > 400 &&
-        positionAuto8 < 800
+        positionAuto8 > 500 &&
+        positionAuto8 < 900
       ) {
         boom(8);
       } else if (
         activeAutomobiles[1] &&
         left > 675 &&
         left < 875 &&
-        positionAuto1 > 400 &&
-        positionAuto1 < 800
+        positionAuto1 > 500 &&
+        positionAuto1 < 900
       ) {
         boom(1);
       } else if (
         activeAutomobiles[7] &&
         left > 675 &&
         left < 875 &&
-        positionAuto7 > 400 &&
-        positionAuto7 < 800
+        positionAuto7 > 500 &&
+        positionAuto7 < 900
       ) {
         boom(7);
       }

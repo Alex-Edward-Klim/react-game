@@ -8,7 +8,7 @@
   position: relative;
 
   width: 900px;
-  height: 800px;
+  height: 900px;
   border: 1px solid black;
 
   margin: auto;
@@ -20,7 +20,7 @@
 
 .taxi {
   position: absolute;
-  top: 600px;
+  top: 700px;
   left: 475px;
 
   width: 100px;
@@ -33,10 +33,10 @@
 
 .auto-wrapper-first {
   position: absolute;
-  top: -3200px;
+  top: -3600px;
 
   width: inherit;
-  height: 3200px;
+  height: 3600px;
 
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -46,10 +46,10 @@
 
 .auto-wrapper-second {
   position: absolute;
-  top: -3200px;
+  top: -3600px;
 
   width: inherit;
-  height: 3200px;
+  height: 3600px;
 
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -60,10 +60,10 @@
 
 @keyframes block {
   0% {
-    top: -3200px;
+    top: -3600px;
   }
   100% {
-    top: 3200px;
+    top: 3600px;
   }
 }
 
@@ -103,13 +103,14 @@
   position: absolute;
 
   width: 25px;
-  height: 800px;
+  height: 900px;
 
   background: repeating-linear-gradient(
     #fff,
-    #fff 100px,
-    #000 100px,
-    #000 200px
+    /* 900 / 6 & 900 / 3 */
+    #fff 150px,
+    #000 150px,
+    #000 300px
   );
 }
 
@@ -121,7 +122,7 @@
 }
 
 .roadside-strip__first {
-  top: -800px;
+  top: -900px;
   animation: roadside-strip-first 0.5s infinite linear;
 }
 .roadside-strip__second {
@@ -131,7 +132,7 @@
 
 @keyframes roadside-strip-first {
   0% {
-    top: -800px;
+    top: -900px;
   }
   100% {
     top: 0;
@@ -143,7 +144,7 @@
     top: 0;
   }
   100% {
-    top: 800px;
+    top: 900px;
   }
 }
 
@@ -160,41 +161,45 @@
 }
 
 .roadstrips__first-block {
-  top: 100px;
+  /* = 225 / 2 */
+  top: 112px;
   animation: roadstrips-first 0.5s infinite linear;
 }
 
 .roadstrips__second-block {
-  top: -700px;
+  top: -900px;
   animation: roadstrips-second 0.5s infinite linear;
 }
 
 .roadstrips-lane {
   width: 10px;
-  height: 800px;
+  height: 900px;
 
   background: repeating-linear-gradient(
     #fff,
-    #fff 200px,
-    transparent 200px,
-    transparent 400px
+    /* = 900 / 4 & 900 / 2 */
+    #fff 225px,
+    transparent 225px,
+    transparent 450px
   );
 }
 
 @keyframes roadstrips-first {
   0% {
-    top: 100px;
+    /* = 225 / 2 */
+    top: 112px;
   }
   100% {
-    top: 800px;
+    top: 900px;
   }
 }
 
 @keyframes roadstrips-second {
   0% {
-    top: -700px;
+    /* = -900px + 112px */
+    top: -788px;
   }
   100% {
-    top: 100px;
+    top: 112px;
   }
 }
