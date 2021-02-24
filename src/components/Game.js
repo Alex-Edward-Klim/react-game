@@ -235,7 +235,7 @@ function Game() {
       }, 3000);
     };
 
-    setInterval(() => {
+    const gameActionInterval = setInterval(() => {
       const positionAuto1 = Math.round(
         automobiles[1].current.getBoundingClientRect().y
       );
@@ -369,6 +369,10 @@ function Game() {
         boom(7);
       }
     }, 10);
+
+    return () => {
+      clearInterval(gameActionInterval);
+    };
   }, []);
 
   return (
