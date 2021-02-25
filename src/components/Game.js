@@ -59,9 +59,12 @@ function Game() {
   const roadstripsSecondBlock = useRef(null);
 
   useEffect(() => {
+    // const windowWidth = document.body.clientWidth;
+    // console.log(windowWidth);
+
     for (let key in automobiles) {
       automobiles[key].current.style.marginTop =
-        Math.round(Math.random() * 3000) + "px";
+        Math.round(Math.random() * 3400) + "px";
       automobiles[
         key
       ].current.style.backgroundImage = `url(${pickRandomColorAuto()})`;
@@ -71,7 +74,7 @@ function Game() {
       for (let i = 1; i <= 6; i += 1) {
         automobiles[i].current.style.display = "block";
         automobiles[i].current.style.marginTop =
-          Math.round(Math.random() * 3000) + "px";
+          Math.round(Math.random() * 3400) + "px";
         automobiles[
           i
         ].current.style.backgroundImage = `url(${pickRandomColorAuto()})`;
@@ -82,7 +85,7 @@ function Game() {
       for (let i = 7; i <= 12; i += 1) {
         automobiles[i].current.style.display = "block";
         automobiles[i].current.style.marginTop =
-          Math.round(Math.random() * 3000) + "px";
+          Math.round(Math.random() * 3400) + "px";
         automobiles[
           i
         ].current.style.backgroundImage = `url(${pickRandomColorAuto()})`;
