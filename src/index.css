@@ -6,72 +6,34 @@
 
 .game {
   position: relative;
-
-  width: 900px;
-  height: 900px;
-  border: 1px solid black;
-
   margin: auto;
-
   overflow: hidden;
-
   background-color: rgb(88, 88, 88);
 }
 
 .taxi {
   position: absolute;
-  top: 700px;
-  left: 475px;
-
-  width: 100px;
-  height: 200px;
-
   background-image: url("./images/AutoYellow.png");
+  background-size: cover;
+  z-index: 1;
+}
 
-  z-index: 100;
+.auto-lane {
+  background-size: cover;
 }
 
 .auto-wrapper-first {
   position: absolute;
-  top: -3600px;
-
   width: inherit;
-  height: 3600px;
-
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-
-  animation: block 8s infinite linear;
 }
 
 .auto-wrapper-second {
   position: absolute;
-  top: -3600px;
-
   width: inherit;
-  height: 3600px;
-
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-
-  animation: block 8s infinite linear;
-  animation-delay: 4s;
-}
-
-@keyframes block {
-  0% {
-    top: -3600px;
-  }
-  100% {
-    top: 3600px;
-  }
-}
-
-.auto-lane {
-  width: 100px;
-  height: 200px;
-
-  margin: 0 25px;
 }
 
 .auto-wrapper-first__auto-six,
@@ -101,17 +63,6 @@
 
 .roadside-strip {
   position: absolute;
-
-  width: 25px;
-  height: 900px;
-
-  background: repeating-linear-gradient(
-    #fff,
-    /* 900 / 6 & 900 / 3 */
-    #fff 150px,
-    #000 150px,
-    #000 300px
-  );
 }
 
 .roadside-strip__left {
@@ -121,85 +72,10 @@
   right: 0;
 }
 
-.roadside-strip__first {
-  top: -900px;
-  animation: roadside-strip-first 0.5s infinite linear;
-}
-.roadside-strip__second {
-  top: 0;
-  animation: roadside-strip-second 0.5s infinite linear;
-}
-
-@keyframes roadside-strip-first {
-  0% {
-    top: -900px;
-  }
-  100% {
-    top: 0;
-  }
-}
-
-@keyframes roadside-strip-second {
-  0% {
-    top: 0;
-  }
-  100% {
-    top: 900px;
-  }
-}
-
 .roadstrips {
   position: absolute;
-
-  left: 145px;
-
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-
   width: inherit;
   height: inherit;
-}
-
-.roadstrips__first-block {
-  /* = 225 / 2 */
-  top: 112px;
-  animation: roadstrips-first 0.5s infinite linear;
-}
-
-.roadstrips__second-block {
-  top: -900px;
-  animation: roadstrips-second 0.5s infinite linear;
-}
-
-.roadstrips-lane {
-  width: 10px;
-  height: 900px;
-
-  background: repeating-linear-gradient(
-    #fff,
-    /* = 900 / 4 & 900 / 2 */
-    #fff 225px,
-    transparent 225px,
-    transparent 450px
-  );
-}
-
-@keyframes roadstrips-first {
-  0% {
-    /* = 225 / 2 */
-    top: 112px;
-  }
-  100% {
-    top: 900px;
-  }
-}
-
-@keyframes roadstrips-second {
-  0% {
-    /* = -900px + 112px */
-    top: -788px;
-  }
-  100% {
-    top: 112px;
-  }
 }

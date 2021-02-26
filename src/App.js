@@ -1,9 +1,15 @@
-import Game from "./components/Game";
+import { useEffect } from "react";
+import GameWrapper from "./components/GameWrapper";
 
 function App() {
+
+  useEffect(() => {
+    
+  }, []);
+
   return (
     <>
-      <Game />
+      <GameWrapper />
     </>
   );
 }
