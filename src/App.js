@@ -1,11 +1,11 @@
-import GameWrapper from "./components/GameWrapper";
+// import GameWrapper from "./components/GameWrapper";
 import Panel from "./components/Panel";
 
 function App() {
   return (
     <>
       <Panel />
-      <GameWrapper />
+      {/* <GameWrapper /> */}
     </>
   );
 }

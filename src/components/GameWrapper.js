@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Game from "./Game";
 
-const GameWrapper = () => {
+const GameWrapper = ({startTimer, stopTimer, pauseCompleted, resumeCompleted, paused, setPaused, logGameStatistics }) => {
   const [gameSize, setGameSize] = useState(
     Math.min(
       document.documentElement.clientWidth,
       document.documentElement.clientHeight
     )
   );
-  const [paused, setPaused] = useState(false);
+  // const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     const handleWindowResize = () => {
@@ -23,18 +23,36 @@ const GameWrapper = () => {
     };
     window.addEventListener("resize", handleWindowResize);
 
-    const handlePause = () => {
-      paused ? setPaused(false) : setPaused(true);
+    let logStats = true;
+    const handlePause = (e) => {
+      if (e.repeat) {
+        return;
+      }
+
+      if (e.code === "Escape") {
+        // paused ? setPaused(false) : setPaused(true);
+
+        // setPaused(true);
+        if (logStats) {
+          logStats = false;
+          logGameStatistics(false);
+        }
+      }
+
+      if (e.code === "Enter") {
+        logStats = true;
+        setPaused(false);
+      }
     };
-    window.addEventListener("click", handlePause);
+    window.addEventListener("keydown", handlePause);
 
     return () => {
       window.removeEventListener("resize", handleWindowResize);
-      window.removeEventListener("click", handlePause);
+      window.removeEventListener("keydown", handlePause);
     };
   }, [gameSize, paused]);
 
-  return <>{paused ? <h1>Paused</h1> : <Game gameSize={gameSize} />}</>;
+  return <>{paused ? <h1>Paused</h1> : <Game gameSize={gameSize} startTimer={startTimer} stopTimer={stopTimer} pauseCompleted={pauseCompleted} resumeCompleted={resumeCompleted} />}</>;
 };
 
-export default GameWrapper;
+export default React.memo(GameWrapper);

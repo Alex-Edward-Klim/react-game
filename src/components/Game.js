@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 import { keyframes } from "styled-components";
 
@@ -15,6 +15,10 @@ const pickRandomColorAuto = () =>
   arrOfAutoColors[Math.round(Math.random() * 2)];
 
 function Game(props) {
+
+  //
+  console.log('game render');
+
   const gameSize = props.gameSize;
   const positionConstants = calculatePositionConstants(gameSize);
 
@@ -175,6 +179,15 @@ function Game(props) {
   const autoWrapperFirstAnimationiterationEventFunction = autoWrapperAnimationiterationEventFunction(1, 6);
   const autoWrapperSecondAnimationiterationEventFunction = autoWrapperAnimationiterationEventFunction(7, 12);
 
+  useEffect(() => props.pauseCompleted, []);
+  useEffect(() => props.stopTimer, []);
+  // useEffect(() => () => props.logGameStatistics(false), []);
+
+  useEffect(() => {
+    props.startTimer();
+    props.resumeCompleted();
+  }, []);
+
   useEffect(() => {
     game.current.style.width = `${positionConstants[900]}px`;
     game.current.style.height = `${positionConstants[900]}px`;
@@ -241,6 +254,9 @@ function Game(props) {
     const pause = () => {
       paused = true;
 
+      props.pauseCompleted();
+      props.stopTimer();
+
       driving = false;
 
       stopMovingLeft();
@@ -262,6 +278,9 @@ function Game(props) {
     const resume = () => {
       paused = false;
 
+      props.startTimer();
+      props.resumeCompleted();
+
       driving = true;
 
       autoWrapperFirst.current.style.animationPlayState = "running";
@@ -273,16 +292,19 @@ function Game(props) {
       roadstripsSecondBlock.current.style.animationPlayState = "running";
     };
 
+    let makePause = true;
     const handleKeyDown = (e) => {
       if (e.repeat) {
         return;
       }
 
       if (e.code === "KeyP") {
+        if (makePause) {
         if (paused) {
           resume();
         } else {
           pause();
+        }
         }
       }
 
@@ -313,11 +335,15 @@ function Game(props) {
 
     let clearBoomTimeout;
     const boom = (num) => {
+      makePause = false;
+
       driving = false;
       activeAutomobiles[num] = false;
 
       stopMovingLeft();
       stopMovingRight();
+
+      props.pauseCompleted();
 
       automobiles[num].current.style.backgroundImage = `url(${blowImage})`;
       taxi.current.style.backgroundImage = `url(${blowImage})`;
@@ -339,6 +365,8 @@ function Game(props) {
 
         driving = true;
 
+        props.resumeCompleted();
+
         autoWrapperFirst.current.style.animationPlayState = "running";
         autoWrapperSecond.current.style.animationPlayState = "running";
 
@@ -348,6 +376,8 @@ function Game(props) {
 
         roadstripsFirstBlock.current.style.animationPlayState = "running";
         roadstripsSecondBlock.current.style.animationPlayState = "running";
+
+        makePause = true;
       }, 3000);
     };
 
@@ -492,6 +522,8 @@ function Game(props) {
     }, 10);
 
     return () => {
+      clearInterval(leftMove);
+      clearInterval(rightMove);
       clearInterval(gameActionInterval);
       clearTimeout(clearBoomTimeout);
       window.removeEventListener("keydown", handleKeyDown);
@@ -617,4 +649,4 @@ function Game(props) {
   );
 }
 
-export default Game;
+export default React.memo(Game);
