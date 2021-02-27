@@ -4,6 +4,14 @@
   padding: 0;
 }
 
+.panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+
+
 .game {
   position: relative;
   margin: auto;

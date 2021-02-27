@@ -1,14 +1,10 @@
-import { useEffect } from "react";
 import GameWrapper from "./components/GameWrapper";
+import Panel from "./components/Panel";
 
 function App() {
-
-  useEffect(() => {
-    
-  }, []);
-
   return (
     <>
+      <Panel />
       <GameWrapper />
     </>
   );
