@@ -2,23 +2,24 @@ import React, { useEffect, useRef } from "react";
 
 import { keyframes } from "styled-components";
 
-import blowImage from "../images/Blow.png";
 import autoRedImage from "../images/AutoRed.png";
 import autoYellowImage from "../images/AutoYellow.png";
 import autoGreenImage from "../images/AutoGreen.png";
 import autoBlueImage from "../images/AutoBlue.png";
+import blowImage from "../images/Blow.png";
 
 import { calculatePositionConstants } from "./gameModules/responsive";
 
-const arrOfAutoColors = [autoRedImage, autoGreenImage, autoBlueImage];
+const arrOfAutoColors = [
+  autoRedImage,
+  autoYellowImage,
+  autoGreenImage,
+  autoBlueImage,
+];
 const pickRandomColorAuto = () =>
-  arrOfAutoColors[Math.round(Math.random() * 2)];
+  arrOfAutoColors[Math.round(Math.random() * 3)];
 
 function Game(props) {
-
-  //
-  console.log('game render');
-
   const gameSize = props.gameSize;
   const positionConstants = calculatePositionConstants(gameSize);
 
@@ -68,6 +69,34 @@ function Game(props) {
 
   const roadstripsFirstBlock = useRef(null);
   const roadstripsSecondBlock = useRef(null);
+
+  const getTaxiColor = () => {
+    if (props.color === "red") {
+      return autoRedImage;
+    } else if (props.color === "yellow") {
+      return autoYellowImage;
+    } else if (props.color === "green") {
+      return autoGreenImage;
+    } else if (props.color === "blue") {
+      return autoBlueImage;
+    }
+  };
+
+  const getTaxiInitialLanePosition = () => {
+    if (props.lane === "1") {
+      return positionConstants[775];
+    } else if (props.lane === "2") {
+      return positionConstants[625];
+    } else if (props.lane === "3") {
+      return positionConstants[475];
+    } else if (props.lane === "4") {
+      return positionConstants[325];
+    } else if (props.lane === "5") {
+      return positionConstants[175];
+    } else if (props.lane === "6") {
+      return positionConstants[25];
+    }
+  };
 
   const autoBlockAnimation = keyframes`
       0% {
@@ -164,7 +193,7 @@ function Game(props) {
       transparent ${positionConstants[450]}px
     )`,
   };
-  
+
   const autoWrapperAnimationiterationEventFunction = (from, to) => () => {
     for (let i = from; i <= to; i += 1) {
       automobiles[i].current.style.display = "block";
@@ -174,14 +203,19 @@ function Game(props) {
         i
       ].current.style.backgroundImage = `url(${pickRandomColorAuto()})`;
     }
-  }
+  };
 
-  const autoWrapperFirstAnimationiterationEventFunction = autoWrapperAnimationiterationEventFunction(1, 6);
-  const autoWrapperSecondAnimationiterationEventFunction = autoWrapperAnimationiterationEventFunction(7, 12);
+  const autoWrapperFirstAnimationiterationEventFunction = autoWrapperAnimationiterationEventFunction(
+    1,
+    6
+  );
+  const autoWrapperSecondAnimationiterationEventFunction = autoWrapperAnimationiterationEventFunction(
+    7,
+    12
+  );
 
   useEffect(() => props.pauseCompleted, []);
   useEffect(() => props.stopTimer, []);
-  // useEffect(() => () => props.logGameStatistics(false), []);
 
   useEffect(() => {
     props.startTimer();
@@ -192,10 +226,11 @@ function Game(props) {
     game.current.style.width = `${positionConstants[900]}px`;
     game.current.style.height = `${positionConstants[900]}px`;
 
+    taxi.current.style.backgroundImage = `url(${getTaxiColor()})`;
     taxi.current.style.width = `${positionConstants[100]}px`;
     taxi.current.style.height = `${positionConstants[200]}px`;
     taxi.current.style.top = `${positionConstants[700]}px`;
-    taxi.current.style.left = `${positionConstants[475]}px`;
+    taxi.current.style.left = `${getTaxiInitialLanePosition()}px`;
 
     autoWrapperFirst.current.style.height = `${positionConstants[3600]}px`;
     autoWrapperFirst.current.style.top = `${-positionConstants[3600]}px`;
@@ -213,8 +248,14 @@ function Game(props) {
       automobiles[key].current.style.height = `${positionConstants[200]}px`;
     }
 
-    autoWrapperFirst.current.addEventListener("animationiteration", autoWrapperFirstAnimationiterationEventFunction);
-    autoWrapperSecond.current.addEventListener("animationiteration", autoWrapperSecondAnimationiterationEventFunction);
+    autoWrapperFirst.current.addEventListener(
+      "animationiteration",
+      autoWrapperFirstAnimationiterationEventFunction
+    );
+    autoWrapperSecond.current.addEventListener(
+      "animationiteration",
+      autoWrapperSecondAnimationiterationEventFunction
+    );
 
     let driving = true;
 
@@ -300,11 +341,11 @@ function Game(props) {
 
       if (e.code === "KeyP") {
         if (makePause) {
-        if (paused) {
-          resume();
-        } else {
-          pause();
-        }
+          if (paused) {
+            resume();
+          } else {
+            pause();
+          }
         }
       }
 
@@ -359,7 +400,8 @@ function Game(props) {
 
       clearBoomTimeout = setTimeout(() => {
         automobiles[num].current.style.display = "none";
-        taxi.current.style.backgroundImage = `url(${autoYellowImage})`;
+
+        taxi.current.style.backgroundImage = `url(${getTaxiColor()})`;
 
         activeAutomobiles[num] = true;
 
@@ -382,143 +424,140 @@ function Game(props) {
     };
 
     const gameActionInterval = setInterval(() => {
+      if (automobiles[1].current) {
+        const positionAuto1 = Math.round(
+          automobiles[1].current.getBoundingClientRect().y
+        );
+        const positionAuto2 = Math.round(
+          automobiles[2].current.getBoundingClientRect().y
+        );
+        const positionAuto3 = Math.round(
+          automobiles[3].current.getBoundingClientRect().y
+        );
+        const positionAuto4 = Math.round(
+          automobiles[4].current.getBoundingClientRect().y
+        );
+        const positionAuto5 = Math.round(
+          automobiles[5].current.getBoundingClientRect().y
+        );
+        const positionAuto6 = Math.round(
+          automobiles[6].current.getBoundingClientRect().y
+        );
+        const positionAuto7 = Math.round(
+          automobiles[7].current.getBoundingClientRect().y
+        );
+        const positionAuto8 = Math.round(
+          automobiles[8].current.getBoundingClientRect().y
+        );
+        const positionAuto9 = Math.round(
+          automobiles[9].current.getBoundingClientRect().y
+        );
+        const positionAuto10 = Math.round(
+          automobiles[10].current.getBoundingClientRect().y
+        );
+        const positionAuto11 = Math.round(
+          automobiles[11].current.getBoundingClientRect().y
+        );
+        const positionAuto12 = Math.round(
+          automobiles[12].current.getBoundingClientRect().y
+        );
 
-    if (automobiles[1].current) {
-
-      const positionAuto1 = Math.round(
-        automobiles[1].current.getBoundingClientRect().y
-      );
-      const positionAuto2 = Math.round(
-        automobiles[2].current.getBoundingClientRect().y
-      );
-      const positionAuto3 = Math.round(
-        automobiles[3].current.getBoundingClientRect().y
-      );
-      const positionAuto4 = Math.round(
-        automobiles[4].current.getBoundingClientRect().y
-      );
-      const positionAuto5 = Math.round(
-        automobiles[5].current.getBoundingClientRect().y
-      );
-      const positionAuto6 = Math.round(
-        automobiles[6].current.getBoundingClientRect().y
-      );
-      const positionAuto7 = Math.round(
-        automobiles[7].current.getBoundingClientRect().y
-      );
-      const positionAuto8 = Math.round(
-        automobiles[8].current.getBoundingClientRect().y
-      );
-      const positionAuto9 = Math.round(
-        automobiles[9].current.getBoundingClientRect().y
-      );
-      const positionAuto10 = Math.round(
-        automobiles[10].current.getBoundingClientRect().y
-      );
-      const positionAuto11 = Math.round(
-        automobiles[11].current.getBoundingClientRect().y
-      );
-      const positionAuto12 = Math.round(
-        automobiles[12].current.getBoundingClientRect().y
-      );
-
-      if (
-        activeAutomobiles[12] &&
-        left < positionConstants[125] &&
-        positionAuto12 > positionConstants[500] &&
-        positionAuto12 < positionConstants[900]
-      ) {
-        boom(12);
-      } else if (
-        activeAutomobiles[6] &&
-        left < positionConstants[125] &&
-        positionAuto6 > positionConstants[500] &&
-        positionAuto6 < positionConstants[900]
-      ) {
-        boom(6);
-      } else if (
-        activeAutomobiles[5] &&
-        left > positionConstants[75] &&
-        left < positionConstants[275] &&
-        positionAuto5 > positionConstants[500] &&
-        positionAuto5 < positionConstants[900]
-      ) {
-        boom(5);
-      } else if (
-        activeAutomobiles[11] &&
-        left > positionConstants[75] &&
-        left < positionConstants[275] &&
-        positionAuto11 > positionConstants[500] &&
-        positionAuto11 < positionConstants[900]
-      ) {
-        boom(11);
-      } else if (
-        activeAutomobiles[4] &&
-        left > positionConstants[225] &&
-        left < positionConstants[425] &&
-        positionAuto4 > positionConstants[500] &&
-        positionAuto4 < positionConstants[900]
-      ) {
-        boom(4);
-      } else if (
-        activeAutomobiles[10] &&
-        left > positionConstants[225] &&
-        left < positionConstants[425] &&
-        positionAuto10 > positionConstants[500] &&
-        positionAuto10 < positionConstants[900]
-      ) {
-        boom(10);
-      } else if (
-        activeAutomobiles[3] &&
-        left > positionConstants[375] &&
-        left < positionConstants[575] &&
-        positionAuto3 > positionConstants[500] &&
-        positionAuto3 < positionConstants[900]
-      ) {
-        boom(3);
-      } else if (
-        activeAutomobiles[9] &&
-        left > positionConstants[375] &&
-        left < positionConstants[575] &&
-        positionAuto9 > positionConstants[500] &&
-        positionAuto9 < positionConstants[900]
-      ) {
-        boom(9);
-      } else if (
-        activeAutomobiles[2] &&
-        left > positionConstants[525] &&
-        left < positionConstants[725] &&
-        positionAuto2 > positionConstants[500] &&
-        positionAuto2 < positionConstants[900]
-      ) {
-        boom(2);
-      } else if (
-        activeAutomobiles[8] &&
-        left > positionConstants[525] &&
-        left < positionConstants[725] &&
-        positionAuto8 > positionConstants[500] &&
-        positionAuto8 < positionConstants[900]
-      ) {
-        boom(8);
-      } else if (
-        activeAutomobiles[1] &&
-        left > positionConstants[675] &&
-        left < positionConstants[875] &&
-        positionAuto1 > positionConstants[500] &&
-        positionAuto1 < positionConstants[900]
-      ) {
-        boom(1);
-      } else if (
-        activeAutomobiles[7] &&
-        left > positionConstants[675] &&
-        left < positionConstants[875] &&
-        positionAuto7 > positionConstants[500] &&
-        positionAuto7 < positionConstants[900]
-      ) {
-        boom(7);
+        if (
+          activeAutomobiles[12] &&
+          left < positionConstants[125] &&
+          positionAuto12 > positionConstants[500] &&
+          positionAuto12 < positionConstants[900]
+        ) {
+          boom(12);
+        } else if (
+          activeAutomobiles[6] &&
+          left < positionConstants[125] &&
+          positionAuto6 > positionConstants[500] &&
+          positionAuto6 < positionConstants[900]
+        ) {
+          boom(6);
+        } else if (
+          activeAutomobiles[5] &&
+          left > positionConstants[75] &&
+          left < positionConstants[275] &&
+          positionAuto5 > positionConstants[500] &&
+          positionAuto5 < positionConstants[900]
+        ) {
+          boom(5);
+        } else if (
+          activeAutomobiles[11] &&
+          left > positionConstants[75] &&
+          left < positionConstants[275] &&
+          positionAuto11 > positionConstants[500] &&
+          positionAuto11 < positionConstants[900]
+        ) {
+          boom(11);
+        } else if (
+          activeAutomobiles[4] &&
+          left > positionConstants[225] &&
+          left < positionConstants[425] &&
+          positionAuto4 > positionConstants[500] &&
+          positionAuto4 < positionConstants[900]
+        ) {
+          boom(4);
+        } else if (
+          activeAutomobiles[10] &&
+          left > positionConstants[225] &&
+          left < positionConstants[425] &&
+          positionAuto10 > positionConstants[500] &&
+          positionAuto10 < positionConstants[900]
+        ) {
+          boom(10);
+        } else if (
+          activeAutomobiles[3] &&
+          left > positionConstants[375] &&
+          left < positionConstants[575] &&
+          positionAuto3 > positionConstants[500] &&
+          positionAuto3 < positionConstants[900]
+        ) {
+          boom(3);
+        } else if (
+          activeAutomobiles[9] &&
+          left > positionConstants[375] &&
+          left < positionConstants[575] &&
+          positionAuto9 > positionConstants[500] &&
+          positionAuto9 < positionConstants[900]
+        ) {
+          boom(9);
+        } else if (
+          activeAutomobiles[2] &&
+          left > positionConstants[525] &&
+          left < positionConstants[725] &&
+          positionAuto2 > positionConstants[500] &&
+          positionAuto2 < positionConstants[900]
+        ) {
+          boom(2);
+        } else if (
+          activeAutomobiles[8] &&
+          left > positionConstants[525] &&
+          left < positionConstants[725] &&
+          positionAuto8 > positionConstants[500] &&
+          positionAuto8 < positionConstants[900]
+        ) {
+          boom(8);
+        } else if (
+          activeAutomobiles[1] &&
+          left > positionConstants[675] &&
+          left < positionConstants[875] &&
+          positionAuto1 > positionConstants[500] &&
+          positionAuto1 < positionConstants[900]
+        ) {
+          boom(1);
+        } else if (
+          activeAutomobiles[7] &&
+          left > positionConstants[675] &&
+          left < positionConstants[875] &&
+          positionAuto7 > positionConstants[500] &&
+          positionAuto7 < positionConstants[900]
+        ) {
+          boom(7);
+        }
       }
-    }
-  
     }, 10);
 
     return () => {

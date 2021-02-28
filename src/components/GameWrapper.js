@@ -1,15 +1,39 @@
 import React, { useEffect, useState } from "react";
 
 import Game from "./Game";
+import GameState from "./GameState";
 
-const GameWrapper = ({startTimer, stopTimer, pauseCompleted, resumeCompleted, paused, setPaused, logGameStatistics }) => {
+const GameWrapper = ({
+  color,
+  lane,
+  startTimer,
+  stopTimer,
+  pauseCompleted,
+  resumeCompleted,
+  paused,
+  setPaused,
+  logGameStatistics,
+  finished,
+  resized,
+  setResized,
+  wins,
+  setPage,
+  instructions,
+  setInstruction,
+}) => {
   const [gameSize, setGameSize] = useState(
     Math.min(
       document.documentElement.clientWidth,
       document.documentElement.clientHeight
     )
   );
-  // const [paused, setPaused] = useState(false);
+
+  const startRace = () => {
+    if (paused) {
+      setPaused(false);
+      setResized(false);
+    }
+  };
 
   useEffect(() => {
     const handleWindowResize = () => {
@@ -20,28 +44,29 @@ const GameWrapper = ({startTimer, stopTimer, pauseCompleted, resumeCompleted, pa
           document.documentElement.clientHeight
         )
       );
+      if (!paused) {
+        setResized(true);
+      }
     };
     window.addEventListener("resize", handleWindowResize);
 
-    let logStats = true;
     const handlePause = (e) => {
       if (e.repeat) {
         return;
       }
 
       if (e.code === "Escape") {
-        // paused ? setPaused(false) : setPaused(true);
-
-        // setPaused(true);
-        if (logStats) {
-          logStats = false;
+        if (!paused) {
           logGameStatistics(false);
         }
       }
 
       if (e.code === "Enter") {
-        logStats = true;
-        setPaused(false);
+        if (paused) {
+          setPaused(false);
+          setResized(false);
+          setInstruction(false);
+        }
       }
     };
     window.addEventListener("keydown", handlePause);
@@ -52,7 +77,34 @@ const GameWrapper = ({startTimer, stopTimer, pauseCompleted, resumeCompleted, pa
     };
   }, [gameSize, paused]);
 
-  return <>{paused ? <h1>Paused</h1> : <Game gameSize={gameSize} startTimer={startTimer} stopTimer={stopTimer} pauseCompleted={pauseCompleted} resumeCompleted={resumeCompleted} />}</>;
+  return (
+    <>
+      {paused ? (
+        <GameState
+          startRace={startRace}
+          finished={finished}
+          resized={resized}
+          setResized={setResized}
+          wins={wins}
+          setPage={setPage}
+          instructions={instructions}
+          setInstruction={setInstruction}
+        />
+      ) : (
+        <>
+          <Game
+            gameSize={gameSize}
+            color={color}
+            lane={lane}
+            startTimer={startTimer}
+            stopTimer={stopTimer}
+            pauseCompleted={pauseCompleted}
+            resumeCompleted={resumeCompleted}
+          />
+        </>
+      )}
+    </>
+  );
 };
 
 export default React.memo(GameWrapper);

@@ -1,79 +1,87 @@
 import { useEffect, useRef, useState } from "react";
 import GameWrapper from "./GameWrapper";
 
-const Panel = () => {
-
-  //
-  console.log('render');
-
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const Panel = ({
+  color,
+  level,
+  lane,
+  finished,
+  setFinished,
+  resized,
+  setResized,
+  winTheRace,
+  wins,
+  setPage,
+  instructions,
+  setInstruction,
+}) => {
+  const setDifficultyLevel = () => {
+    if (level === "easy") {
+      return 250;
+    } else if (level === "normal") {
+      return 400;
+    } else if (level === "hard") {
+      return 550;
+    }
+  };
 
   const [timer, setTimer] = useState(60);
 
-  // const [timerIsActive, setTimerIsActive] = useState(false);
-  
   const interval = useRef(null);
 
   const tick = () => {
-    setTimer(prevTimer => prevTimer - 1);
+    setTimer((prevTimer) => prevTimer - 1);
   };
 
   const startTimer = () => {
     interval.current = setInterval(tick, 1000);
-    // setTimerIsActive(true);
   };
 
   const stopTimer = () => {
-    clearInterval(interval.current)
-    // setTimerIsActive(false);
+    clearInterval(interval.current);
   };
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
   const [completed, setCompleted] = useState(0);
-  
+
   const completedInterval = useRef(null);
 
   const completedTick = () => {
-    setCompleted(prevCompleted => prevCompleted + 1);
+    setCompleted((prevCompleted) => prevCompleted + 1);
   };
 
   const resumeCompleted = () => {
-    completedInterval.current = setInterval(completedTick, 100);
+    completedInterval.current = setInterval(
+      completedTick,
+      setDifficultyLevel()
+    );
   };
 
   const pauseCompleted = () => {
-    clearInterval(completedInterval.current)
+    clearInterval(completedInterval.current);
   };
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const [paused, setPaused] = useState(false);
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const [paused, setPaused] = useState(true);
 
   const logGameStatistics = (finished) => {
-
     pauseCompleted();
     stopTimer();
 
     if (finished) {
-      console.log('finished: ', finished);
+      setFinished(finished);
+      winTheRace();
       setPaused(true);
     } else {
-      console.log('finished: ', finished);
+      setFinished(finished);
       setPaused(true);
     }
 
-    setTimer(prevTimer => {
-      console.log('timer: ', prevTimer);
+    setTimer((prevTimer) => {
       return 60;
     });
-    setCompleted(prevCompleted => {
-      console.log('completed: ', prevCompleted);
+    setCompleted((prevCompleted) => {
       return 0;
     });
   };
-
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   useEffect(() => {
     if (timer <= 0) {
@@ -89,26 +97,33 @@ const Panel = () => {
     return () => pauseCompleted;
   }, [completed]);
 
-  // useEffect(() => {
-  //   startTimer();
-  //   resumeCompleted();
-  // }, []);
-
-
-
   return (
     <>
-      <div className="panel">
-        <p>Timer: {timer}</p>
-        {/* <button onClick={stopTimer}>Stop</button>
-        <button disabled={timerIsActive} onClick={startTimer}>Resume</button> */}
-  
-        <p>Completed: {completed}%</p>
-        {/* <button onClick={pauseCompleted}>Pause Completed</button>
-        <button onClick={resumeCompleted}>Resume Completed</button> */}
-      </div>
+      {!paused ? (
+        <div className="panel">
+          <p>Timer: {timer}</p>
+          <p>Completed: {completed}%</p>
+        </div>
+      ) : null}
 
-      <GameWrapper startTimer={startTimer} stopTimer={stopTimer} pauseCompleted={pauseCompleted} resumeCompleted={resumeCompleted} paused={paused} setPaused={setPaused} logGameStatistics={logGameStatistics} />
+      <GameWrapper
+        color={color}
+        lane={lane}
+        startTimer={startTimer}
+        stopTimer={stopTimer}
+        pauseCompleted={pauseCompleted}
+        resumeCompleted={resumeCompleted}
+        paused={paused}
+        setPaused={setPaused}
+        logGameStatistics={logGameStatistics}
+        finished={finished}
+        resized={resized}
+        setResized={setResized}
+        wins={wins}
+        setPage={setPage}
+        instructions={instructions}
+        setInstruction={setInstruction}
+      />
     </>
   );
 };
