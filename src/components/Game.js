@@ -263,7 +263,9 @@ function Game(props) {
 
     const moveRight = () => {
       if (left < positionConstants[800]) {
-        taxi.current.style.left = `${(left += positionConstants[9])}px`;
+        if (taxi.current) {
+          taxi.current.style.left = `${(left += positionConstants[9])}px`;
+        }
       }
     };
 
@@ -278,7 +280,9 @@ function Game(props) {
 
     const moveLeft = () => {
       if (left > 0) {
-        taxi.current.style.left = `${(left -= positionConstants[9])}px`;
+        if (taxi.current) {
+          taxi.current.style.left = `${(left -= positionConstants[9])}px`;
+        }
       }
     };
 
@@ -399,27 +403,29 @@ function Game(props) {
       roadstripsSecondBlock.current.style.animationPlayState = "paused";
 
       clearBoomTimeout = setTimeout(() => {
-        automobiles[num].current.style.display = "none";
+        if (automobiles[num].current) {
+          automobiles[num].current.style.display = "none";
 
-        taxi.current.style.backgroundImage = `url(${getTaxiColor()})`;
+          taxi.current.style.backgroundImage = `url(${getTaxiColor()})`;
 
-        activeAutomobiles[num] = true;
+          activeAutomobiles[num] = true;
 
-        driving = true;
+          driving = true;
 
-        props.resumeCompleted();
+          props.resumeCompleted();
 
-        autoWrapperFirst.current.style.animationPlayState = "running";
-        autoWrapperSecond.current.style.animationPlayState = "running";
+          autoWrapperFirst.current.style.animationPlayState = "running";
+          autoWrapperSecond.current.style.animationPlayState = "running";
 
-        for (let strip in roadsideStrips) {
-          roadsideStrips[strip].current.style.animationPlayState = "running";
+          for (let strip in roadsideStrips) {
+            roadsideStrips[strip].current.style.animationPlayState = "running";
+          }
+
+          roadstripsFirstBlock.current.style.animationPlayState = "running";
+          roadstripsSecondBlock.current.style.animationPlayState = "running";
+
+          makePause = true;
         }
-
-        roadstripsFirstBlock.current.style.animationPlayState = "running";
-        roadstripsSecondBlock.current.style.animationPlayState = "running";
-
-        makePause = true;
       }, 3000);
     };
 
