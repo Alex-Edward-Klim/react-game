@@ -68,6 +68,38 @@ const App = () => {
     saveToLocalStorage();
   }, [level, color, lane, page, wins, finished, instructions, resized]);
 
+  const handleFullScreenMode = () => {
+    if (document.fullscreenEnabled) {
+      if (!window.screenTop && !window.screenY) {
+        const gameAppRef = document;
+        const browserFullScreenRef = gameAppRef.cancelFullScreen || gameAppRef.webkitCancelFullScreen || gameAppRef.mozCancelFullScreen || gameAppRef.msCancelFullScreen;
+        browserFullScreenRef.call(gameAppRef);
+      } else {
+        const gameAppRef = document.documentElement;
+        const browserFullScreenRef = gameAppRef.requestFullscreen || gameAppRef.webkitRequestFullScreen || gameAppRef.mozRequestFullScreen || gameAppRef.msRequestFullscreen;
+        browserFullScreenRef.call(gameAppRef);
+      }
+    }
+  };
+
+  const changeFullScreenViaKeyV = (e) => {
+    if (e.repeat) {
+      return;
+    }
+
+    if (e.code === "KeyV") {
+      handleFullScreenMode();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", changeFullScreenViaKeyV);
+
+    return () => {
+      window.removeEventListener("keydown", changeFullScreenViaKeyV);
+    };
+  }, []);
+
   const winTheRace = () => {
     if (level === "easy") {
       setWins((prevWins) => ({
