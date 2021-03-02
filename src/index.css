@@ -1,16 +1,140 @@
+@font-face {
+  font-family: "MuliExtraBold";
+  src: url("./fonts/Muli.ttf") format("truetype");
+}
+
 * {
   /* box-sizing: border-box; */
   margin: 0;
   padding: 0;
 }
 
-.panel {
+body {
+  min-width: 320px;
+  font-family: "MuliExtraBold";
+  font-weight: 900;
+  color: #f5f5f5;
+  background-color: #212121;
+  user-select: none;
+}
+
+label {
+  font-size: large;
+}
+
+select {
+  width: 240px;
+  height: 54px;
+  padding: 8px;
+  font-weight: 900;
+  color: #f5f5f5;
+  background-color: #212121;
+  text-transform: uppercase;
+  text-align: center;
+  text-align-last: center;
+  border: 1px solid #448aff;
+  margin: 10px 0;
+  outline: none;
+}
+select:hover {
+  border-color: #f5f5f5;
+}
+
+option {
+  text-align: center;
+  text-align-last: center;
+}
+
+.controls-table {
+  border-collapse: collapse;
+  width: 240px;
+  color: #212121;
+  text-align: center;
+}
+
+.controls-table td,
+.controls-table th {
+  border: 1px solid #bdbdbd;
+  padding: 8px;
+}
+
+.controls-table tr:nth-child(even) {
+  background-color: #9e9e9e;
+}
+.controls-table tr:nth-child(odd) {
+  background-color: #f5f5f5;
+}
+
+.controls-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background-color: #2196f3;
+  color: #f5f5f5;
+}
+
+.records-table {
+  border-collapse: collapse;
+  width: 240px;
+  color: #f5f5f5;
+  text-align: center;
+  font-weight: 900;
+}
+
+.records-table td,
+.records-table th {
+  border: 1px solid #bdbdbd;
+  padding: 8px;
+}
+
+.records-table tr:nth-child(even) {
+  background-color: #616161;
+}
+.records-table tr:nth-child(odd) {
+  background-color: #757575;
+}
+
+.records-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  color: #212121;
+}
+
+.records-table__red {
+  background-color: #ff5252;
+}
+.records-table__yellow {
+  background-color: #ffeb3b;
+}
+.records-table__green {
+  background-color: #4caf50;
+}
+.records-table__blue {
+  background-color: #2196f3;
+}
+.records-table__black {
+  background-color: #212121;
+}
+
+.dashboardWrapper {
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 2;
 }
 
-
+.dashboard-timer,
+.dashboard-completed {
+  border: 1px solid #bdbdbd;
+  text-align: center;
+}
+.dashboard-timer {
+  background-color: #ff5252;
+  float: left;
+}
+.dashboard-completed {
+  background-color: #4caf50;
+  float: right;
+}
 
 .game {
   position: relative;

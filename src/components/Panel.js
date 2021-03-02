@@ -97,13 +97,54 @@ const Panel = ({
     return () => pauseCompleted;
   }, [completed]);
 
+  const dashboardWidth = Math.min(
+    document.documentElement.clientWidth,
+    document.documentElement.clientHeight
+  );
+
+  const dashboardWrapperStyle = {
+    width: `${dashboardWidth}px`,
+    marginLeft: `${Math.floor(
+      (document.documentElement.clientWidth - dashboardWidth) / 2
+    )}px`,
+  };
+
+  const dashboardTimerAndCompletedWidth = Math.floor(dashboardWidth / 7);
+  const dashboardTimerAndCompletedHeight = Math.floor(
+    dashboardTimerAndCompletedWidth / 2
+  );
+  const dashboardTimerAndCompletedMargin = Math.ceil(dashboardWidth / 36);
+  const dashboardStyle = {
+    width: `${dashboardTimerAndCompletedWidth}px`,
+    height: `${dashboardTimerAndCompletedHeight}px`,
+    lineHeight: `${dashboardTimerAndCompletedHeight}px`,
+    fontSize: `${dashboardTimerAndCompletedMargin}px`,
+  };
+  const dashboardTimerStyle = {
+    ...dashboardStyle,
+    marginLeft: `${dashboardTimerAndCompletedMargin}px`,
+  };
+  const dashboardCompletedStyle = {
+    ...dashboardStyle,
+    marginRight: `${dashboardTimerAndCompletedMargin}px`,
+  };
+
   return (
     <>
       {!paused ? (
-        <div className="panel">
-          <p>Timer: {timer}</p>
-          <p>Completed: {completed}%</p>
-        </div>
+        <>
+          <div style={dashboardWrapperStyle} className="dashboardWrapper">
+            <div style={dashboardTimerStyle} className="dashboard-timer">
+              {timer}
+            </div>
+            <div
+              style={dashboardCompletedStyle}
+              className="dashboard-completed"
+            >
+              {completed}%
+            </div>
+          </div>
+        </>
       ) : null}
 
       <GameWrapper

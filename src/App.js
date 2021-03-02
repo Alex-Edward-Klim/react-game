@@ -72,11 +72,19 @@ const App = () => {
     if (document.fullscreenEnabled) {
       if (!window.screenTop && !window.screenY) {
         const gameAppRef = document;
-        const browserFullScreenRef = gameAppRef.cancelFullScreen || gameAppRef.webkitCancelFullScreen || gameAppRef.mozCancelFullScreen || gameAppRef.msCancelFullScreen;
+        const browserFullScreenRef =
+          gameAppRef.cancelFullScreen ||
+          gameAppRef.webkitCancelFullScreen ||
+          gameAppRef.mozCancelFullScreen ||
+          gameAppRef.msCancelFullScreen;
         browserFullScreenRef.call(gameAppRef);
       } else {
         const gameAppRef = document.documentElement;
-        const browserFullScreenRef = gameAppRef.requestFullscreen || gameAppRef.webkitRequestFullScreen || gameAppRef.mozRequestFullScreen || gameAppRef.msRequestFullscreen;
+        const browserFullScreenRef =
+          gameAppRef.requestFullscreen ||
+          gameAppRef.webkitRequestFullScreen ||
+          gameAppRef.mozRequestFullScreen ||
+          gameAppRef.msRequestFullscreen;
         browserFullScreenRef.call(gameAppRef);
       }
     }
