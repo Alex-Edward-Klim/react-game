@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Link, Redirect, Route, Switch } from "react-router-dom";
+import Footer from "./components/Footer";
 
 import Panel from "./components/Panel";
 import Settings from "./components/Settings";
@@ -129,36 +131,88 @@ const App = () => {
 
   return (
     <>
-      {page === "settings" ? (
-        <Settings
-          color={color}
-          lane={lane}
-          level={level}
-          setColor={setColor}
-          setLane={setLane}
-          setLevel={setLevel}
-          setPage={setPage}
+      <Switch>
+        <Route
+          path="/"
+          exact
+          render={() => {
+            return (
+              <>
+                <div className="game-menu-wrapper">
+                  <h1
+                    style={{
+                      fontSize: "xxx-large",
+                      marginBottom: "50px",
+                      textAlign: "center",
+                    }}
+                  >
+                    RACING GAME
+                  </h1>
+                  <Link
+                    to="/play"
+                    className="game-menu-wrapper__green-button"
+                    onClick={() => {
+                      setPage("settings");
+                      setInstruction(true);
+                      setResized(false);
+                    }}
+                  >
+                    <p>
+                      <span className="bg"></span>
+                      <span className="base"></span>
+                      <span className="text">Play</span>
+                    </p>
+                  </Link>
+                  <Footer />
+                </div>
+              </>
+            );
+          }}
         />
-      ) : null}
-      {page === "game" ? (
-        <Panel
-          color={color}
-          finished={finished}
-          instructions={instructions}
-          lane={lane}
-          level={level}
-          resized={resized}
-          setFinished={setFinished}
-          setInstruction={setInstruction}
-          setPage={setPage}
-          setResized={setResized}
-          wins={wins}
-          winTheRace={winTheRace}
+        <Route
+          path="/play"
+          exact
+          render={() => {
+            return (
+              <>
+                {page === "settings" ? (
+                  <Settings
+                    color={color}
+                    lane={lane}
+                    level={level}
+                    setColor={setColor}
+                    setLane={setLane}
+                    setLevel={setLevel}
+                    setPage={setPage}
+                  />
+                ) : null}
+                {page === "game" ? (
+                  <Panel
+                    color={color}
+                    finished={finished}
+                    instructions={instructions}
+                    lane={lane}
+                    level={level}
+                    resized={resized}
+                    setFinished={setFinished}
+                    setInstruction={setInstruction}
+                    setPage={setPage}
+                    setResized={setResized}
+                    wins={wins}
+                    winTheRace={winTheRace}
+                  />
+                ) : null}
+                {page === "statistics" ? (
+                  <Statistics wins={wins} setPage={setPage} />
+                ) : null}
+              </>
+            );
+          }}
         />
-      ) : null}
-      {page === "statistics" ? (
-        <Statistics wins={wins} setPage={setPage} />
-      ) : null}
+        <Route path="*">
+          <Redirect to="/" />
+        </Route>
+      </Switch>
     </>
   );
 };

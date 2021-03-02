@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Settings = ({
   level,
   setLevel,
@@ -69,13 +71,13 @@ const Settings = ({
           </p>
         </div>
 
-        <div className="game-menu-wrapper__red-button">
+        <Link to="/" className="game-menu-wrapper__red-button">
           <p>
             <span className="bg"></span>
             <span className="base"></span>
             <span className="text">Exit</span>
           </p>
-        </div>
+        </Link>
       </div>
     </>
   );
