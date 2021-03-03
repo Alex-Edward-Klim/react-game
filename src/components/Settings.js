@@ -6,6 +6,10 @@ const Settings = ({
   color,
   setColor,
   lane,
+  musicVolume,
+  setMusicVolume,
+  soundsVolume,
+  setSoundsVolume,
   setLane,
   setPage,
 }) => {
@@ -48,6 +52,26 @@ const Settings = ({
           <option value="5">5</option>
           <option value="6">6</option>
         </select>
+
+        <label htmlFor="musicvolume">Music Volume:</label>
+        <input
+          type="range"
+          name="musicvolume"
+          min="0"
+          max="10"
+          defaultValue={musicVolume}
+          onChange={(e) => setMusicVolume(+e.target.value)}
+        />
+
+        <label htmlFor="soundsvolume">Sounds Volume:</label>
+        <input
+          type="range"
+          name="soundsvolume"
+          min="0"
+          max="10"
+          defaultValue={soundsVolume}
+          onChange={(e) => setSoundsVolume(+e.target.value)}
+        />
 
         <div
           className="game-menu-wrapper__green-button"

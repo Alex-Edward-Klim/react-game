@@ -8,6 +8,9 @@ import autoGreenImage from "../images/AutoGreen.png";
 import autoBlueImage from "../images/AutoBlue.png";
 import blowImage from "../images/Blow.png";
 
+import music from "../sounds/music.mp3";
+import boomSound from "../sounds/boom.wav";
+
 import { calculatePositionConstants } from "./gameModules/responsive";
 
 const arrOfAutoColors = [
@@ -214,6 +217,15 @@ function Game(props) {
     12
   );
 
+  const musicRef = useRef(null);
+  const boomSoundRef = useRef(null);
+
+  useEffect(() => {
+    musicRef.current.volume = props.musicVolume / 10;
+    boomSoundRef.current.volume = props.soundsVolume / 10;
+    musicRef.current.play();
+  }, []);
+
   useEffect(() => props.pauseCompleted, []);
   useEffect(() => props.stopTimer, []);
 
@@ -297,6 +309,8 @@ function Game(props) {
 
     let paused = false;
     const pause = () => {
+      musicRef.current.pause();
+
       paused = true;
 
       props.pauseCompleted();
@@ -321,6 +335,8 @@ function Game(props) {
     window.addEventListener("blur", handlePauseWindowEvent);
 
     const resume = () => {
+      musicRef.current.play();
+
       paused = false;
 
       props.startTimer();
@@ -380,6 +396,10 @@ function Game(props) {
 
     let clearBoomTimeout;
     const boom = (num) => {
+      musicRef.current.pause();
+      boomSoundRef.current.currentTime = 0;
+      boomSoundRef.current.play();
+
       makePause = false;
 
       driving = false;
@@ -425,6 +445,8 @@ function Game(props) {
           roadstripsSecondBlock.current.style.animationPlayState = "running";
 
           makePause = true;
+
+          musicRef.current.play();
         }
       }, 3000);
     };
@@ -578,119 +600,127 @@ function Game(props) {
   }, []);
 
   return (
-    <div>
-      <div className="game" ref={game}>
-        <div className="taxi" ref={taxi}></div>
+    <>
+      <audio ref={musicRef} style={{ display: "none" }}>
+        <source src={music} type="audio/mpeg" />
+      </audio>
+      <audio ref={boomSoundRef} style={{ display: "none" }}>
+        <source src={boomSound} type="audio/mpeg" />
+      </audio>
+      <div>
+        <div className="game" ref={game}>
+          <div className="taxi" ref={taxi}></div>
 
-        <div
-          className={`auto-wrapper-first`}
-          style={autoWrapperFirstAnimationStyles}
-          ref={autoWrapperFirst}
-        >
           <div
-            className={`auto-lane auto-wrapper-first__auto-six`}
-            ref={automobiles[6]}
-          ></div>
-          <div
-            className={`auto-lane auto-wrapper-first__auto-five`}
-            ref={automobiles[5]}
-          ></div>
-          <div
-            className={`auto-lane auto-wrapper-first__auto-four`}
-            ref={automobiles[4]}
-          ></div>
-          <div
-            className={`auto-lane auto-wrapper-first__auto-three`}
-            ref={automobiles[3]}
-          ></div>
-          <div
-            className={`auto-lane auto-wrapper-first__auto-two`}
-            ref={automobiles[2]}
-          ></div>
-          <div
-            className={`auto-lane auto-wrapper-first__auto-one`}
-            ref={automobiles[1]}
-          ></div>
-        </div>
+            className={`auto-wrapper-first`}
+            style={autoWrapperFirstAnimationStyles}
+            ref={autoWrapperFirst}
+          >
+            <div
+              className={`auto-lane auto-wrapper-first__auto-six`}
+              ref={automobiles[6]}
+            ></div>
+            <div
+              className={`auto-lane auto-wrapper-first__auto-five`}
+              ref={automobiles[5]}
+            ></div>
+            <div
+              className={`auto-lane auto-wrapper-first__auto-four`}
+              ref={automobiles[4]}
+            ></div>
+            <div
+              className={`auto-lane auto-wrapper-first__auto-three`}
+              ref={automobiles[3]}
+            ></div>
+            <div
+              className={`auto-lane auto-wrapper-first__auto-two`}
+              ref={automobiles[2]}
+            ></div>
+            <div
+              className={`auto-lane auto-wrapper-first__auto-one`}
+              ref={automobiles[1]}
+            ></div>
+          </div>
 
-        <div
-          className={`auto-wrapper-second`}
-          style={autoWrapperSecondAnimationStyles}
-          ref={autoWrapperSecond}
-        >
           <div
-            className={`auto-lane auto-wrapper-second__auto-six`}
-            ref={automobiles[12]}
-          ></div>
-          <div
-            className={`auto-lane auto-wrapper-second__auto-five`}
-            ref={automobiles[11]}
-          ></div>
-          <div
-            className={`auto-lane auto-wrapper-second__auto-four`}
-            ref={automobiles[10]}
-          ></div>
-          <div
-            className={`auto-lane auto-wrapper-second__auto-three`}
-            ref={automobiles[9]}
-          ></div>
-          <div
-            className={`auto-lane auto-wrapper-second__auto-two`}
-            ref={automobiles[8]}
-          ></div>
-          <div
-            className={`auto-lane auto-wrapper-second__auto-one`}
-            ref={automobiles[7]}
-          ></div>
-        </div>
+            className={`auto-wrapper-second`}
+            style={autoWrapperSecondAnimationStyles}
+            ref={autoWrapperSecond}
+          >
+            <div
+              className={`auto-lane auto-wrapper-second__auto-six`}
+              ref={automobiles[12]}
+            ></div>
+            <div
+              className={`auto-lane auto-wrapper-second__auto-five`}
+              ref={automobiles[11]}
+            ></div>
+            <div
+              className={`auto-lane auto-wrapper-second__auto-four`}
+              ref={automobiles[10]}
+            ></div>
+            <div
+              className={`auto-lane auto-wrapper-second__auto-three`}
+              ref={automobiles[9]}
+            ></div>
+            <div
+              className={`auto-lane auto-wrapper-second__auto-two`}
+              ref={automobiles[8]}
+            ></div>
+            <div
+              className={`auto-lane auto-wrapper-second__auto-one`}
+              ref={automobiles[7]}
+            ></div>
+          </div>
 
-        <div
-          className="roadside-strip roadside-strip__first roadside-strip__left"
-          style={roadsideStripFirstStyle}
-          ref={roadsideStrips[1]}
-        ></div>
-        <div
-          className="roadside-strip roadside-strip__first roadside-strip__right"
-          style={roadsideStripFirstStyle}
-          ref={roadsideStrips[2]}
-        ></div>
+          <div
+            className="roadside-strip roadside-strip__first roadside-strip__left"
+            style={roadsideStripFirstStyle}
+            ref={roadsideStrips[1]}
+          ></div>
+          <div
+            className="roadside-strip roadside-strip__first roadside-strip__right"
+            style={roadsideStripFirstStyle}
+            ref={roadsideStrips[2]}
+          ></div>
 
-        <div
-          className="roadside-strip roadside-strip__second roadside-strip__left"
-          style={roadsideStripSecondStyle}
-          ref={roadsideStrips[3]}
-        ></div>
-        <div
-          className="roadside-strip roadside-strip__second roadside-strip__right"
-          style={roadsideStripSecondStyle}
-          ref={roadsideStrips[4]}
-        ></div>
+          <div
+            className="roadside-strip roadside-strip__second roadside-strip__left"
+            style={roadsideStripSecondStyle}
+            ref={roadsideStrips[3]}
+          ></div>
+          <div
+            className="roadside-strip roadside-strip__second roadside-strip__right"
+            style={roadsideStripSecondStyle}
+            ref={roadsideStrips[4]}
+          ></div>
 
-        <div
-          className="roadstrips"
-          style={roadstripsFirstBlockStyle}
-          ref={roadstripsFirstBlock}
-        >
-          <div style={roadstripsLaneStyle}></div>
-          <div style={roadstripsLaneStyle}></div>
-          <div style={roadstripsLaneStyle}></div>
-          <div style={roadstripsLaneStyle}></div>
-          <div style={roadstripsLaneStyle}></div>
-        </div>
+          <div
+            className="roadstrips"
+            style={roadstripsFirstBlockStyle}
+            ref={roadstripsFirstBlock}
+          >
+            <div style={roadstripsLaneStyle}></div>
+            <div style={roadstripsLaneStyle}></div>
+            <div style={roadstripsLaneStyle}></div>
+            <div style={roadstripsLaneStyle}></div>
+            <div style={roadstripsLaneStyle}></div>
+          </div>
 
-        <div
-          className="roadstrips"
-          style={roadstripsSecondBlockStyle}
-          ref={roadstripsSecondBlock}
-        >
-          <div style={roadstripsLaneStyle}></div>
-          <div style={roadstripsLaneStyle}></div>
-          <div style={roadstripsLaneStyle}></div>
-          <div style={roadstripsLaneStyle}></div>
-          <div style={roadstripsLaneStyle}></div>
+          <div
+            className="roadstrips"
+            style={roadstripsSecondBlockStyle}
+            ref={roadstripsSecondBlock}
+          >
+            <div style={roadstripsLaneStyle}></div>
+            <div style={roadstripsLaneStyle}></div>
+            <div style={roadstripsLaneStyle}></div>
+            <div style={roadstripsLaneStyle}></div>
+            <div style={roadstripsLaneStyle}></div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

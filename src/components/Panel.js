@@ -14,6 +14,8 @@ const Panel = ({
   setPage,
   instructions,
   setInstruction,
+  musicVolume,
+  soundsVolume,
 }) => {
   const setDifficultyLevel = () => {
     if (level === "easy") {
@@ -164,6 +166,8 @@ const Panel = ({
         setPage={setPage}
         instructions={instructions}
         setInstruction={setInstruction}
+        musicVolume={musicVolume}
+        soundsVolume={soundsVolume}
       />
     </>
   );

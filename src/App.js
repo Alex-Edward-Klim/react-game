@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, Redirect, Route, Switch } from "react-router-dom";
 import Footer from "./components/Footer";
 
 import Panel from "./components/Panel";
 import Settings from "./components/Settings";
 import Statistics from "./components/Statistics";
+
+import clickSound from "./sounds/click.wav";
 
 const App = () => {
   const loadFromLocalStorage = () => {
@@ -21,6 +23,8 @@ const App = () => {
       finished: storage ? JSON.parse(storage.finished) : false,
       instructions: storage ? JSON.parse(storage.instructions) : true,
       resized: storage ? JSON.parse(storage.resized) : false,
+      musicVolume: storage ? +JSON.parse(storage.musicVolume) : 5,
+      soundsVolume: storage ? +JSON.parse(storage.soundsVolume) : 5,
     };
   };
 
@@ -51,6 +55,13 @@ const App = () => {
     loadFromLocalStorage().resized || false
   );
 
+  const [musicVolume, setMusicVolume] = useState(
+    loadFromLocalStorage().musicVolume
+  );
+  const [soundsVolume, setSoundsVolume] = useState(
+    loadFromLocalStorage().soundsVolume
+  );
+
   const saveToLocalStorage = () => {
     const data = {
       level,
@@ -61,6 +72,8 @@ const App = () => {
       finished: JSON.stringify(finished),
       instructions: JSON.stringify(instructions),
       resized: JSON.stringify(resized),
+      musicVolume: JSON.stringify(musicVolume),
+      soundsVolume: JSON.stringify(soundsVolume),
     };
 
     localStorage.setItem("ZelenoglazoeTaxiRacingGame", JSON.stringify(data));
@@ -68,7 +81,18 @@ const App = () => {
 
   useEffect(() => {
     saveToLocalStorage();
-  }, [level, color, lane, page, wins, finished, instructions, resized]);
+  }, [
+    level,
+    color,
+    lane,
+    page,
+    wins,
+    finished,
+    instructions,
+    resized,
+    musicVolume,
+    soundsVolume,
+  ]);
 
   const handleFullScreenMode = () => {
     if (document.fullscreenEnabled) {
@@ -129,8 +153,18 @@ const App = () => {
     }
   };
 
+  const clickSoundRef = useRef(null);
+
+  const playClickSound = () => {
+    clickSoundRef.current.currentTime = 0;
+    clickSoundRef.current.play();
+  };
+
   return (
     <>
+      <audio ref={clickSoundRef} style={{ display: "none" }}>
+        <source src={clickSound} type="audio/mpeg" />
+      </audio>
       <Switch>
         <Route
           path="/"
@@ -152,6 +186,7 @@ const App = () => {
                     to="/play"
                     className="game-menu-wrapper__green-button"
                     onClick={() => {
+                      playClickSound();
                       setPage("settings");
                       setInstruction(true);
                       setResized(false);
@@ -180,6 +215,10 @@ const App = () => {
                     color={color}
                     lane={lane}
                     level={level}
+                    musicVolume={musicVolume}
+                    setMusicVolume={setMusicVolume}
+                    soundsVolume={soundsVolume}
+                    setSoundsVolume={setSoundsVolume}
                     setColor={setColor}
                     setLane={setLane}
                     setLevel={setLevel}
@@ -193,6 +232,8 @@ const App = () => {
                     instructions={instructions}
                     lane={lane}
                     level={level}
+                    musicVolume={musicVolume}
+                    soundsVolume={soundsVolume}
                     resized={resized}
                     setFinished={setFinished}
                     setInstruction={setInstruction}

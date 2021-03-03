@@ -20,6 +20,8 @@ const GameWrapper = ({
   setPage,
   instructions,
   setInstruction,
+  musicVolume,
+  soundsVolume,
 }) => {
   const [gameSize, setGameSize] = useState(
     Math.min(
@@ -100,6 +102,8 @@ const GameWrapper = ({
             stopTimer={stopTimer}
             pauseCompleted={pauseCompleted}
             resumeCompleted={resumeCompleted}
+            musicVolume={musicVolume}
+            soundsVolume={soundsVolume}
           />
         </>
       )}
